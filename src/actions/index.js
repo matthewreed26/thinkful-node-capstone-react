@@ -14,3 +14,9 @@ export const fetchAcronyms= () => dispatch => {
         dispatch(fetchAcronymsSuccess(acronyms));
     });
 };
+
+export const SET_FINDER_VAL = 'SET_FINDER_VAL';
+export const setFinderVal = finderVal => ({
+    type: SET_FINDER_VAL,
+    finderVal
+});

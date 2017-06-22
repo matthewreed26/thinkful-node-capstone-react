@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {fetchAcronyms} from '../actions';
+import {fetchAcronyms, setFinderVal} from '../actions';
 
 export class AcronymFinder extends React.Component{
 	constructor(props){
@@ -12,20 +12,28 @@ export class AcronymFinder extends React.Component{
 
 	render(){
     const acronyms = this.props.acronyms.map((acronym, index) => {
-      return (<div key={index}>{index}::{acronym.acronym}::{acronym.definition}</div>)
+	  	return (<tr key={index}><td>{acronym.acronym}</td><td>{acronym.definition}</td></tr>);
     });
 		return (
-			<div>{acronyms}</div>
+			<div>
+				<input type='text' onChange={(event)=>{
+					this.props.dispatch(setFinderVal(event.target.value));
+				}}/>
+				<div>{this.props.finderVal}</div>
+				<div>All Acronyms:</div>
+				<table>
+				<tr><th>Acronym</th><th>Definition</th></tr>
+				{acronyms}
+				</table>
+			</div>
 		);
 	}
 }
 
-AcronymFinder.defaultProps = {
-	acronyms: []
-}
-
 const mapStateToProps = state => ({
-    acronyms: state.acronyms
+    acronyms: state.acronyms,
+		finderVal: state.finderVal,
+		foundAcronym: state.foundAcronym
 });
 
 export default connect(mapStateToProps)(AcronymFinder);
