@@ -7,7 +7,9 @@ const initialState = {
 
 export const acronymFinderReducer = (state=initialState, action) => {
     if (action.type === actions.FETCH_ACRONYMS_SUCCESS) {
-        return {acronyms:action.acronyms};
+        return Object.assign({}, state, {
+          acronyms:action.acronyms
+        });
     } else if (action.type === actions.SET_FINDER_VAL) {
         return Object.assign({}, state, {
           finderVal:action.finderVal

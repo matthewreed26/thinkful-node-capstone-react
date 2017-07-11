@@ -15,6 +15,11 @@ export class AcronymFinder extends React.Component{
     this.props.dispatch(fetchAcronyms());
 	}
 
+	findVal(val){
+		return val?this.props.acronyms.filter(
+		  	(acronym)=>String(acronym.acronym).toLowerCase().includes(String(val).toLowerCase())):[];
+	}
+
 	render(){
 		return (
 			<Router>
@@ -24,9 +29,8 @@ export class AcronymFinder extends React.Component{
                 <Redirect from="/" to="/search" />
                 <Route exact path="/search"
 										render={()=><Search
-											onChange={(value)=>this.props.dispatch(setFinderVal(value))}
-											finderVal={this.props.finderVal}
-											acronyms={this.props.acronyms} />} />
+											onChange={(value)=>this.props.dispatch(setFinderVal(this.findVal(value)))}
+											finderVal={this.props.finderVal} />} />
                 <Route exact path="/acronym-list"
 										render={()=><AcronymList acronyms={this.props.acronyms} />} />
             </main>

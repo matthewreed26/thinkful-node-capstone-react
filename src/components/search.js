@@ -5,22 +5,15 @@ import {connect} from 'react-redux';
 import {AcronymList} from './acronym-list';
 
 export function Search(props) {
-    function findVal(val){
-      return val?props.acronyms.filter(
-        (acronym)=>String(acronym.acronym).toLowerCase().includes(String(val).toLowerCase())):[];
-    }
-    // let results = showResults(findVal(props.finderVal));
-    // function showResults(valResults){
-    //   results = valResults.length?Array(valResults).map((acronym, index) => {
-    //     return (<tr key={index}><td>{acronym.acronym}</td><td>{acronym.definition}</td></tr>);
-    //   }):[];
-    // }
+    const results = props.finderVal.length?
+      <AcronymList acronyms={props.finderVal} />:<div>Acronym Not Found</div>;
     return (
         <div>
+          <h4>Enter an Acronym:</h4>
   				<input type='text' onChange={(event)=>{
-  					props.onChange(findVal(event.target.value));
+  					props.onChange(event.target.value);
   				}}/>
-        	<AcronymList acronyms={props.finderVal} />
+        	{results}
         </div>
     );
 }
