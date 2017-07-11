@@ -3,7 +3,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 //import './email-list.css';
 
-export function AllList(props) {
+export function AcronymList(props) {
     const acronyms = props.acronyms.map((acronym, index) => {
       return (<tr key={index}><td>{acronym.acronym}</td><td>{acronym.definition}</td></tr>);
     });
@@ -22,4 +22,4 @@ const mapStateToProps = (state, props) => {
     }
 };
 
-export default connect(mapStateToProps)(AllList);
+export default connect(mapStateToProps)(AcronymList);

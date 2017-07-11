@@ -8,7 +8,7 @@ export function Navigation(props) {
         <div>
             <nav>
               <Link to={'/search'}>Search</Link>&nbsp;|&nbsp;
-              <Link to={'/all-list'}>All Acronyms</Link>
+              <Link to={'/acronym-list'}>All Acronyms</Link>
             </nav>
         </div>
     );

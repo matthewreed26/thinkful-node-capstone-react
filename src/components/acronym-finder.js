@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 import {fetchAcronyms, setFinderVal} from '../actions';
 
 import {Search} from './search';
-import {AllList} from './all-list';
+import {AcronymList} from './acronym-list';
 import {Navigation} from './navigation';
 
 export class AcronymFinder extends React.Component{
@@ -25,9 +25,10 @@ export class AcronymFinder extends React.Component{
                 <Route exact path="/search"
 										render={()=><Search
 											onChange={(value)=>this.props.dispatch(setFinderVal(value))}
-											finderVal={this.props.finderVal} />} />
-                <Route exact path="/all-list"
-										render={()=><AllList acronyms={this.props.acronyms} />} />
+											finderVal={this.props.finderVal}
+											acronyms={this.props.acronyms} />} />
+                <Route exact path="/acronym-list"
+										render={()=><AcronymList acronyms={this.props.acronyms} />} />
             </main>
 					</div>
 			</Router>

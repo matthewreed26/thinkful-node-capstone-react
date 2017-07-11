@@ -2,7 +2,7 @@ import * as actions from '../actions';
 
 const initialState = {
     acronyms: [],
-    finderVal: ''
+    finderVal: []
 };
 
 export const acronymFinderReducer = (state=initialState, action) => {
