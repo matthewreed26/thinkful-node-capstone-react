@@ -20,3 +20,9 @@ export const setFinderVal = finderVal => ({
     type: SET_FINDER_VAL,
     finderVal
 });
+
+export const SET_FINDER_RESULTS = 'SET_FINDER_RESULTS';
+export const setFinderResults = finderResults => ({
+    type: SET_FINDER_RESULTS,
+    finderResults
+});

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
-import {fetchAcronyms, setFinderVal} from '../actions';
+import {fetchAcronyms, setFinderVal, setFinderResults} from '../actions';
 
 import {Search} from './search';
 import {AcronymList} from './acronym-list';
@@ -29,8 +29,12 @@ export class AcronymFinder extends React.Component{
                 <Redirect from="/" to="/search" />
                 <Route exact path="/search"
 										render={()=><Search
-											onChange={(value)=>this.props.dispatch(setFinderVal(this.findVal(value)))}
-											finderVal={this.props.finderVal} />} />
+											onChange={(value)=>{
+												this.props.dispatch(setFinderVal(value));
+												this.props.dispatch(setFinderResults(this.findVal(value)));
+											}}
+											finderVal={this.props.finderVal}
+											finderResults={this.props.finderResults} />} />
                 <Route exact path="/acronym-list"
 										render={()=><AcronymList acronyms={this.props.acronyms} />} />
             </main>
@@ -42,7 +46,8 @@ export class AcronymFinder extends React.Component{
 
 const mapStateToProps = state => ({
     acronyms: state.acronyms,
-		finderVal: state.finderVal
+		finderVal: state.finderVal,
+		finderResults: state.finderResults
 });
 
 export default connect(mapStateToProps)(AcronymFinder);

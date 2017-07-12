@@ -2,7 +2,8 @@ import * as actions from '../actions';
 
 const initialState = {
     acronyms: [],
-    finderVal: []
+    finderVal: '',
+    finderResults: []
 };
 
 export const acronymFinderReducer = (state=initialState, action) => {
@@ -13,6 +14,10 @@ export const acronymFinderReducer = (state=initialState, action) => {
     } else if (action.type === actions.SET_FINDER_VAL) {
         return Object.assign({}, state, {
           finderVal:action.finderVal
+        });
+    } else if (action.type === actions.SET_FINDER_RESULTS) {
+        return Object.assign({}, state, {
+          finderResults:action.finderResults
         });
     }
     return state;

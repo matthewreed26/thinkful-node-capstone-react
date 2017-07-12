@@ -16,7 +16,8 @@ export function Navigation(props) {
 
 const mapStateToProps = (state, props) => ({
     acronyms: state.acronyms,
-    finderVal: state.finderVal
+    finderVal: state.finderVal,
+    finderResults: state.finderResults
 });
 
 export default connect(mapStateToProps)(Navigation);
