@@ -4,7 +4,7 @@ export const fetchAcronymsSuccess = acronyms => ({
     acronyms
 });
 
-const BASE_URL = ( "http://polar-lake-31524.herokuapp.com");
+const BASE_URL = ( "https://polar-lake-31524.herokuapp.com");
 const ACRONYMS_URL = BASE_URL + '/acronyms';
 export const fetchAcronyms= () => dispatch => {
     fetch(ACRONYMS_URL).then(res => {
