@@ -17,9 +17,7 @@ export function AcronymList(props) {
 
 const mapStateToProps = (state, props) => {
     return {
-        acronyms: state.acronyms,
-    		finderVal: state.finderVal,
-    		finderResults: state.finderResults
+        acronyms: state.acronyms
     }
 };
 

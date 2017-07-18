@@ -4,7 +4,7 @@ export const fetchAcronymsSuccess = acronyms => ({
     acronyms
 });
 
-const BASE_URL = ( "https://polar-lake-31524.herokuapp.com");
+const BASE_URL = ( "http://localhost:8080");
 const ACRONYMS_URL = BASE_URL + '/acronyms';
 export const fetchAcronyms= () => dispatch => {
     fetch(ACRONYMS_URL).then(res => {
@@ -27,4 +27,10 @@ export const SET_FINDER_RESULTS = 'SET_FINDER_RESULTS';
 export const setFinderResults = finderResults => ({
     type: SET_FINDER_RESULTS,
     finderResults
+});
+
+export const SET_ADD_VAL = 'SET_ADD_VAL';
+export const setAddVal = addVal => ({
+    type: SET_ADD_VAL,
+    addVal
 });
