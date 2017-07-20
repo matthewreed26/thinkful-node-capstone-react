@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = ( "http://localhost:8080");
+//const BASE_URL = ( "http://localhost:8080");
+const BASE_URL = ( "https://polar-lake-31524.herokuapp.com");
 const ACRONYMS_URL = BASE_URL + '/acronyms';
 export const fetchAcronyms= () => dispatch => {
     axios.get(ACRONYMS_URL).then(res => {
