@@ -1,6 +1,5 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 //import './email-list.css';
 import {AcronymList} from './acronym-list';
 
@@ -16,12 +15,3 @@ export function Search(props) {
         </div>
     );
 }
-
-const mapStateToProps = (state, props) => {
-    return {
-    		finderVal: state.finderVal,
-    		finderResults: state.finderResults
-    }
-};
-
-export default connect(mapStateToProps)(Search);

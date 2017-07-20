@@ -1,6 +1,5 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 
 export function AddAcronym(props) {
     return (
@@ -16,12 +15,3 @@ export function AddAcronym(props) {
       </div>
     );
 }
-
-const mapStateToProps = (state, props) => {
-    return {
-    		finderVal: state.finderVal,
-        addVal: state.addVal
-    }
-};
-
-export default connect(mapStateToProps)(AddAcronym);

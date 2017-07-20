@@ -1,6 +1,5 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 //import './email-list.css';
 
 export function AcronymList(props) {
@@ -14,11 +13,3 @@ export function AcronymList(props) {
   	   </table>
     );
 }
-
-const mapStateToProps = (state, props) => {
-    return {
-        acronyms: state.acronyms
-    }
-};
-
-export default connect(mapStateToProps)(AcronymList);
