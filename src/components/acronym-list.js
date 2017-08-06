@@ -8,8 +8,8 @@ export function AcronymList(props) {
     });
     return (
   	   <table>
-  				<tr><th>Acronym</th><th>Definition</th></tr>
-  				{acronyms}
+          <thead><tr><th>Acronym</th><th>Definition</th></tr></thead>
+          <tbody>{acronyms}</tbody>
   	   </table>
     );
 }

@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
-import {fetchAcronyms, setFinderVal, setFinderResults, setAddVal} from '../actions';
+import {fetchAcronyms, setFinderVal,
+	setFinderResults, setAddVal, postAcronym} from '../actions';
 
 import {Search} from './search';
 import {AddAcronym} from './add-acronym';
@@ -13,17 +14,12 @@ export class AcronymFinder extends React.Component{
 	constructor(props){
 		super(props);
 
-    this.props.dispatch(fetchAcronyms());
+		this.props.dispatch(fetchAcronyms());
 	}
 
 	findVal(val){
 		return val?this.props.acronyms.filter(
 		  	(acronym)=>String(acronym.acronym).toLowerCase().includes(String(val).toLowerCase())):[];
-	}
-
-	dummyAdd(val){
-		//will add later
-		return val;
 	}
 
 	render(){
@@ -33,7 +29,8 @@ export class AcronymFinder extends React.Component{
         <AddAcronym finderVal={this.props.finderVal}
                     addVal={this.props.addVal}
                     onChange={(value)=>this.props.dispatch(setAddVal(value))}
-										onSubmit={(value)=>this.dummyAdd({acronym:this.props.finderVal, definition:value})} /></div>:'')
+										onSubmit={(value)=>this.props.dispatch(
+											postAcronym({acronym:this.props.finderVal, definition:value}))} /></div>:'')
         :'';
 		return (
 			<Router>
@@ -50,7 +47,9 @@ export class AcronymFinder extends React.Component{
 											}}
 											finderVal={this.props.finderVal}
 											finderResults={this.props.finderResults} />
-							        {message}
+											{this.props.acronymConfirmation?
+												this.props.acronymConfirmation+' was successfully added/modified!'
+												:message}
 										</div>} />
                 <Route exact path="/acronym-list"
 										render={()=><AcronymList acronyms={this.props.acronyms} />} />
@@ -65,7 +64,8 @@ const mapStateToProps = state => ({
     acronyms: state.acronyms,
 		finderVal: state.finderVal,
 		finderResults: state.finderResults,
-		addVal: state.addVal
+		addVal: state.addVal,
+		acronymConfirmation: state.acronymConfirmation
 });
 
 export default connect(mapStateToProps)(AcronymFinder);
