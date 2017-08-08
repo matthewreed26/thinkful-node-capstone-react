@@ -2,6 +2,7 @@ import React from 'react';
 //import {Link} from 'react-router-dom';
 //import './email-list.css';
 import {AcronymList} from './acronym-list';
+import {ModifyAcronym} from './modify-acronym';
 
 export function Search(props) {
     return (
@@ -10,16 +11,18 @@ export function Search(props) {
   				<input type='text' onChange={(event)=>{
   					props.trackFinderChanges(event.target.value);
   				}}/>
-          {props.finderResults.length?
-            <AcronymList
-              acronyms={props.finderResults}
-              trackAcronymChanges={(value)=>props.trackAcronymChanges(value)}
-              acronymChangesVal={props.acronymChangesVal}
-              trackDefinitionChanges={(value)=>props.trackDefinitionChanges(value)}
-              definitionChangesVal={props.definitionChangesVal}
-              setEditing={(acronym, editing)=>props.setEditing(acronym, editing)}
-              isEditing={props.isEditing}
-              saveChanges={()=>props.saveChanges()} />
+          {props.finderResults.length?(
+            props.isEditing?
+              <ModifyAcronym
+                acronymChangesVal={props.acronymChangesVal}
+                trackAcronymChanges={(value)=>props.trackAcronymChanges(value)}
+                trackDefinitionChanges={(value)=>props.trackDefinitionChanges(value)}
+                definitionChangesVal={props.definitionChangesVal}
+                setEditing={()=>props.setEditing(null, false)}
+                saveChanges={()=>props.saveChanges()} />
+              :<AcronymList acronyms={props.finderResults}
+                setEditing={(acronym)=>props.setEditing(acronym, true)} />
+            )
             :''}
         </div>
     );

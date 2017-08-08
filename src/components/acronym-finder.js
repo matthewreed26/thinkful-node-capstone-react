@@ -80,17 +80,7 @@ export class AcronymFinder extends React.Component{
 												:message}
 										</div>} />
                 <Route exact path="/acronym-list"
-										render={()=><AcronymList
-											acronyms={this.props.acronyms}
-											trackAcronymChanges={(value)=>
-												this.props.dispatch(setAcronymChangesVal(value))}
-											acronymChangesVal={this.props.acronymChangesVal}
-											trackDefinitionChanges={(value)=>
-												this.props.dispatch(setDefinitionChangesVal(value))}
-											definitionChangesVal={this.props.definitionChangesVal}
-											setEditing={(acronym, editing)=>this.setEditing(acronym, editing)}
-											isEditing={this.props.editing}
-											saveChanges={()=>this.saveChanges()} />} />
+										render={()=><AcronymList acronyms={this.props.acronyms} />} />
             </main>
 					</div>
 			</Router>
