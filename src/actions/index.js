@@ -60,3 +60,21 @@ export const setAddVal = addVal => ({
     type: SET_ADD_VAL,
     addVal
 });
+
+export const SET_EDITING = 'SET_EDITING';
+export const setEditing = editing => ({
+    type: SET_EDITING,
+    editing
+});
+
+export const SET_ACRONYM_CHANGES_VAL = 'SET_ACRONYM_CHANGES_VAL';
+export const setAcronymChangesVal = acronymChangesVal => ({
+    type: SET_ACRONYM_CHANGES_VAL,
+    acronymChangesVal
+});
+
+export const SET_DEFINITION_CHANGES_VAL = 'SET_DEFINITION_CHANGES_VAL';
+export const setDefinitionChangesVal = definitionChangesVal => ({
+    type: SET_DEFINITION_CHANGES_VAL,
+    definitionChangesVal
+});

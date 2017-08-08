@@ -5,7 +5,10 @@ const initialState = {
     finderVal: '',
     finderResults: [],
     addVal: '',
-    acronymConfirmation: ''
+    acronymConfirmation: '',
+    editing: false,
+    acronymChangesVal: '',
+    definitionChangesVal: ''
 };
 
 export const acronymFinderReducer = (state=initialState, action) => {
@@ -31,6 +34,21 @@ export const acronymFinderReducer = (state=initialState, action) => {
     } else if (action.type === actions.SET_ADD_VAL) {
         return Object.assign({}, state, {
           addVal:action.addVal,
+          acronymConfirmation:''
+        });
+    } else if (action.type === actions.SET_EDITING) {
+        return Object.assign({}, state, {
+          editing:action.editing,
+          acronymConfirmation:''
+        });
+    } else if (action.type === actions.SET_ACRONYM_CHANGES_VAL) {
+        return Object.assign({}, state, {
+          acronymChangesVal:action.acronymChangesVal,
+          acronymConfirmation:''
+        });
+    } else if (action.type === actions.SET_DEFINITION_CHANGES_VAL) {
+        return Object.assign({}, state, {
+          definitionChangesVal:action.definitionChangesVal,
           acronymConfirmation:''
         });
     }

@@ -8,10 +8,19 @@ export function Search(props) {
         <div>
           <h4>Enter an Acronym:</h4>
   				<input type='text' onChange={(event)=>{
-  					props.onChange(event.target.value);
+  					props.trackFinderChanges(event.target.value);
   				}}/>
           {props.finderResults.length?
-            <AcronymList acronyms={props.finderResults} />:''}
+            <AcronymList
+              acronyms={props.finderResults}
+              trackAcronymChanges={(value)=>props.trackAcronymChanges(value)}
+              acronymChangesVal={props.acronymChangesVal}
+              trackDefinitionChanges={(value)=>props.trackDefinitionChanges(value)}
+              definitionChangesVal={props.definitionChangesVal}
+              setEditing={(acronym, editing)=>props.setEditing(acronym, editing)}
+              isEditing={props.isEditing}
+              saveChanges={()=>props.saveChanges()} />
+            :''}
         </div>
     );
 }
