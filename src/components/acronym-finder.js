@@ -8,6 +8,7 @@ import {fetchAcronyms, setFinderVal,
 
 import {Search} from './search';
 import {AddAcronym} from './add-acronym';
+import {ModifyAcronym} from './modify-acronym';
 import {AcronymList} from './acronym-list';
 import {Navigation} from './navigation';
 
@@ -23,12 +24,14 @@ export class AcronymFinder extends React.Component{
 		  	(acronym)=>String(acronym.acronym).toLowerCase().includes(String(val).toLowerCase())):[];
 	}
 
-	setEditing(acronym, editing){
+	setEditing(acronym){
 		let acronymChangesVal = '';
 		let definitionChangesVal = '';
+		let editing = false;
 		if(acronym){
 			acronymChangesVal = acronym.acronym;
 			definitionChangesVal = acronym.definition;
+			editing = true;
 		}
 		this.props.dispatch(setAcronymChangesVal(acronymChangesVal));
 		this.props.dispatch(setDefinitionChangesVal(definitionChangesVal));
@@ -58,22 +61,24 @@ export class AcronymFinder extends React.Component{
                 <Redirect from="/" to="/search" />
                 <Route exact path="/search"
 										render={()=><div>
-											<Search
-											trackFinderChanges={(value)=>{
-												this.props.dispatch(setFinderVal(value));
-												this.props.dispatch(setFinderResults(this.findVal(value)));
-											}}
-											finderVal={this.props.finderVal}
-											finderResults={this.props.finderResults}
-											trackAcronymChanges={(value)=>
-												this.props.dispatch(setAcronymChangesVal(value))}
-											acronymChangesVal={this.props.acronymChangesVal}
-											trackDefinitionChanges={(value)=>
-												this.props.dispatch(setDefinitionChangesVal(value))}
-											definitionChangesVal={this.props.definitionChangesVal}
-											setEditing={(acronym, editing)=>this.setEditing(acronym, editing)}
-											isEditing={this.props.editing}
-											saveChanges={()=>this.saveChanges()} />
+					            {this.props.editing?
+					              <ModifyAcronym
+													trackAcronymChanges={(value)=>
+														this.props.dispatch(setAcronymChangesVal(value))}
+													acronymChangesVal={this.props.acronymChangesVal}
+													trackDefinitionChanges={(value)=>
+														this.props.dispatch(setDefinitionChangesVal(value))}
+													definitionChangesVal={this.props.definitionChangesVal}
+													setEditing={()=>this.setEditing()}
+													saveChanges={()=>this.saveChanges()} />
+												:<Search
+													trackFinderChanges={(value)=>{
+														this.props.dispatch(setFinderVal(value));
+														this.props.dispatch(setFinderResults(this.findVal(value)));
+													}}
+													finderVal={this.props.finderVal}
+													finderResults={this.props.finderResults}
+													setEditing={(acronym)=>this.setEditing(acronym)} />}
 											{this.props.acronymConfirmation?
 												`'${this.props.acronymConfirmation.acronym}:${this.props.acronymConfirmation.definition}'
 												 was successfully added/modified!`
