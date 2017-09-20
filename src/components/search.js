@@ -10,7 +10,7 @@ export function Search(props) {
   				<input type='text' onChange={(event)=>{
   					props.trackFinderChanges(event.target.value);
   				}}/>
-          {props.finderResults.length?
+          {(props.finderResults && props.finderResults.length)?
             <AcronymList acronyms={props.finderResults}
                 setEditing={(acronym)=>props.setEditing(acronym)} />
             :''}

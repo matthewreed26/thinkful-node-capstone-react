@@ -1,21 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, withRouter} from 'react-router-dom';
 
 import {fetchAcronyms, setFinderVal,
 	setFinderResults, setAddVal, postAcronym, setEditing,
-	setAcronymChangesVal, setDefinitionChangesVal} from '../actions';
+	setAcronymChangesVal, setDefinitionChangesVal} from '../actions/acronyms';
 
 import {Search} from './search';
 import {AddAcronym} from './add-acronym';
 import {ModifyAcronym} from './modify-acronym';
 import {AcronymList} from './acronym-list';
-import {Navigation} from './navigation';
 
 export class AcronymFinder extends React.Component{
-	constructor(props){
-		super(props);
-
+	componentDidMount(){
+    if (!this.props.loggedIn) {
+        return;
+    }
 		this.props.dispatch(fetchAcronyms());
 	}
 
@@ -43,57 +43,45 @@ export class AcronymFinder extends React.Component{
 								 definition:this.props.definitionChangesVal});
 	}
 
-	render(){
-    const message = this.props.finderVal?
-      (!this.props.finderResults.length?
-        <div><div>Acronym not found for <strong>{this.props.finderVal}</strong>...</div>
-        <AddAcronym finderVal={this.props.finderVal}
-                    addVal={this.props.addVal}
-                    onChange={(value)=>this.props.dispatch(setAddVal(value))}
-										onSubmit={(value)=>this.props.dispatch(
-											postAcronym({acronym:this.props.finderVal, definition:value}))} /></div>:'')
-        :'';
-		return (
-			<Router>
-				<div>
-						<Navigation />
-            <main>
-                <Redirect from="/" to="/search" />
-                <Route exact path="/search"
-										render={()=><div>
-					            {this.props.editing?
-					              <ModifyAcronym
-													trackAcronymChanges={(value)=>
-														this.props.dispatch(setAcronymChangesVal(value))}
-													acronymChangesVal={this.props.acronymChangesVal}
-													trackDefinitionChanges={(value)=>
-														this.props.dispatch(setDefinitionChangesVal(value))}
-													definitionChangesVal={this.props.definitionChangesVal}
-													setEditing={()=>this.setEditing()}
-													saveChanges={()=>this.saveChanges()} />
-												:<Search
-													trackFinderChanges={(value)=>{
-														this.props.dispatch(setFinderVal(value));
-														this.props.dispatch(setFinderResults(this.findVal(value)));
-													}}
-													finderVal={this.props.finderVal}
-													finderResults={this.props.finderResults}
-													setEditing={(acronym)=>this.setEditing(acronym)} />}
-											{this.props.acronymConfirmation?
-												`'${this.props.acronymConfirmation.acronym}:${this.props.acronymConfirmation.definition}'
-												 was successfully added/modified!`
-												:message}
-										</div>} />
-                <Route exact path="/acronym-list"
-										render={()=><AcronymList acronyms={this.props.acronyms} />} />
-            </main>
-					</div>
-			</Router>
-		);
-	}
+  render() {
+    // Only visible to logged in users
+    if (!this.props.loggedIn) {
+      return (<Redirect to="/login" />);
+    }
+
+    const message = this.props.finderVal
+      ? (!this.props.finderResults.length
+        ? <div>
+            <div>Acronym not found for
+              <strong>{this.props.finderVal}</strong>...</div>
+            <AddAcronym finderVal={this.props.finderVal} addVal={this.props.addVal} onChange={(value) => this.props.dispatch(setAddVal(value))} onSubmit={(value) => this.props.dispatch(postAcronym({acronym: this.props.finderVal, definition: value}))}/></div>
+        : '')
+      : '';
+    return (
+      <div>
+        <Route exact path="/search" render={() =>< div > {
+          this.props.editing
+            ? <ModifyAcronym trackAcronymChanges={(value) => this.props.dispatch(setAcronymChangesVal(value))} acronymChangesVal={this.props.acronymChangesVal} trackDefinitionChanges={(value) => this.props.dispatch(setDefinitionChangesVal(value))} definitionChangesVal={this.props.definitionChangesVal} setEditing={() => this.setEditing()} saveChanges={() => this.saveChanges()}/>
+            : <Search trackFinderChanges={(value) => {
+                this.props.dispatch(setFinderVal(value));
+                this.props.dispatch(setFinderResults(this.findVal(value)));
+              }} finderVal={this.props.finderVal} finderResults={this.props.finderResults} setEditing={(acronym) => this.setEditing(acronym)}/>
+        }
+        {
+          this.props.acronymConfirmation
+            ? `'${this.props.acronymConfirmation.acronym}:${this.props.acronymConfirmation.definition}' was successfully added/modified!`
+            : message
+        } < /div>}/>
+        <Route exact path="/acronym-list" render={() =>< AcronymList acronyms = {
+          this.props.acronyms
+        } />}/>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
+    loggedIn: state.auth.currentUser !== null,
     acronyms: state.acronyms,
 		finderVal: state.finderVal,
 		finderResults: state.finderResults,
@@ -104,4 +92,4 @@ const mapStateToProps = state => ({
     definitionChangesVal: state.definitionChangesVal
 });
 
-export default connect(mapStateToProps)(AcronymFinder);
+export default withRouter(connect(mapStateToProps)(AcronymFinder));
