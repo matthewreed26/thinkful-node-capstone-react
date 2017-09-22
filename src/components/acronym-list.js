@@ -1,24 +1,51 @@
 import React from 'react';
-//import {Link} from 'react-router-dom';
-//import './email-list.css';
+import {connect} from 'react-redux';
 
-export default function AcronymList(props) {
-    const acronyms = props.acronyms.map((acronym, index) => {
-      const modifyColumn = (props.setEditing?
-        <td><button onClick={()=>
-          props.setEditing(acronym)}>Modify</button></td>
-        :'');
-      return (<tr key={index}>
-        <td>{acronym.acronym}</td>
-        <td>{acronym.definition}</td>
-        {modifyColumn}
-        </tr>);
+import {fetchAcronyms} from '../actions/acronyms';
+
+export class AcronymList extends React.Component {
+  componentDidMount() {
+    if (!this.props.loggedIn) {
+      return;
+    }
+    // if (!this.props.acronyms) {
+      this.props.dispatch(fetchAcronyms());
+    // }
+  }
+  render() {
+    const acronyms = this.props.acronyms.map((acronym, index) => {
+      const modifyColumn = (this.props.setEditing
+        ? <td>
+            <button onClick={() => this.props.setEditing(acronym)}>Modify</button>
+          </td>
+        : '');
+      return (
+        <tr key={index}>
+          <td>{acronym.acronym}</td>
+          <td>{acronym.definition}</td>
+          {modifyColumn}
+        </tr>
+      );
     });
-    const actionsColumn = (props.setEditing?<th>Actions</th>:'');
+    const actionsColumn = (this.props.setEditing
+      ? <th>Actions</th>
+      : '');
     return (
-  	   <table>
-          <thead><tr><th>Acronym</th><th>Definition</th>{actionsColumn}</tr></thead>
-          <tbody>{acronyms}</tbody>
-  	   </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Acronym</th>
+            <th>Definition</th>{actionsColumn}</tr>
+        </thead>
+        <tbody>{acronyms}</tbody>
+      </table>
     );
+  }
 }
+
+const mapStateToProps = state => ({
+  loggedIn: state.auth.currentUser !== null,
+  acronyms: state.acronyms.acronyms
+});
+
+export default connect(mapStateToProps)(AcronymList);
