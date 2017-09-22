@@ -1,7 +1,7 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
 
-export function AddAcronym(props) {
+export default function AddAcronym(props) {
     return (
       <div>
         <div>Would you like to add <strong>{props.finderVal}</strong> to the list of all acronyms?</div>

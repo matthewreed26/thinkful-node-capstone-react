@@ -6,13 +6,14 @@ import {fetchAcronyms, setFinderVal,
 	setFinderResults, setAddVal, postAcronym, setEditing,
 	setAcronymChangesVal, setDefinitionChangesVal} from '../actions/acronyms';
 
-import {Search} from './search';
-import {AddAcronym} from './add-acronym';
-import {ModifyAcronym} from './modify-acronym';
-import {AcronymList} from './acronym-list';
+import Search from './search';
+import AddAcronym from './add-acronym';
+import ModifyAcronym from './modify-acronym';
+import AcronymList from './acronym-list';
 
 export class AcronymFinder extends React.Component{
-	componentDidMount(){
+	componentDidUpdate(){
+    console.log('component updated');
     if (!this.props.loggedIn) {
         return;
     }

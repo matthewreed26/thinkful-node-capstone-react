@@ -2,7 +2,7 @@ import React from 'react';
 //import {Link} from 'react-router-dom';
 //import './email-list.css';
 
-export function AcronymList(props) {
+export default function AcronymList(props) {
     const acronyms = props.acronyms.map((acronym, index) => {
       const modifyColumn = (props.setEditing?
         <td><button onClick={()=>

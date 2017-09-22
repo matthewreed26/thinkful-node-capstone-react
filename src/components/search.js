@@ -1,9 +1,9 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
 //import './email-list.css';
-import {AcronymList} from './acronym-list';
+import AcronymList from './acronym-list';
 
-export function Search(props) {
+export default function Search(props) {
     return (
         <div>
           <h4>Enter an Acronym:</h4>

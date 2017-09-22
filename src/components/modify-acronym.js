@@ -1,7 +1,7 @@
 import React from 'react';
 //import {Link} from 'react-router-dom';
 
-export function ModifyAcronym(props) {
+export default function ModifyAcronym(props) {
   const editAcronym = (<tr>
     <td><input type='text' title="modify acronym"
         onChange={(event)=>{props.trackAcronymChanges(event.target.value)}}

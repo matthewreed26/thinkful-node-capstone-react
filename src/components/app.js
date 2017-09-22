@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter } from 'react-router-dom';
 
-import { HeaderBar } from './header-bar';
-import { LoginPage } from './login-page';
-import { AcronymFinder } from './acronym-finder';
-import { RegistrationPage } from './registration-page';
+import HeaderBar from './header-bar';
+import LoginPage from './login-page';
+import AcronymFinder from './acronym-finder';
+import RegistrationPage from './registration-page';
 
 export class App extends React.Component {
     render() {
