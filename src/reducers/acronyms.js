@@ -46,11 +46,6 @@ export default function reducer(state = initialState, action) {
           acronymChangesVal:action.acronymChangesVal,
           acronymConfirmation:''
         });
-    } else if (action.type === actions.SET_DEFINITION_CHANGES_VAL) {
-        return Object.assign({}, state, {
-          definitionChangesVal:action.definitionChangesVal,
-          acronymConfirmation:''
-        });
     }
     return state;
 }

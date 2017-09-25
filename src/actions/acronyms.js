@@ -21,11 +21,33 @@ export const fetchAcronyms= () => (dispatch, getState) => {
         console.log(err);
     });
 };
-export const postAcronym= (acronymData) => dispatch => {
+export const postAcronym= (acronymData) => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
     const postData = qs.stringify(acronymData);
-    axios.post(ACRONYMS_URL, postData)
-    .then(res => {console.log(res);
+    axios.post(ACRONYMS_URL, postData, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
+    .then(res => {
         if (res.status !== 201) {
+            return Promise.reject(res.statusText);
+        }
+        return res.data;
+    }).then(acronymConfirmation => {
+        dispatch(addUpdateAcronymSuccess(acronymConfirmation));
+    }).catch(err => {
+        console.log(err);
+    });
+};
+export const putAcronym= (acronymData) => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
+    const putData = qs.stringify(acronymData);
+    axios.put(ACRONYMS_URL+'/'+acronymData.id, putData, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
+    .then(res => {
+        if (res.status !== 200) {
             return Promise.reject(res.statusText);
         }
         return res.data;
@@ -76,10 +98,4 @@ export const SET_ACRONYM_CHANGES_VAL = 'SET_ACRONYM_CHANGES_VAL';
 export const setAcronymChangesVal = acronymChangesVal => ({
     type: SET_ACRONYM_CHANGES_VAL,
     acronymChangesVal
-});
-
-export const SET_DEFINITION_CHANGES_VAL = 'SET_DEFINITION_CHANGES_VAL';
-export const setDefinitionChangesVal = definitionChangesVal => ({
-    type: SET_DEFINITION_CHANGES_VAL,
-    definitionChangesVal
 });
