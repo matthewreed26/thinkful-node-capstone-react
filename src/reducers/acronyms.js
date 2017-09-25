@@ -1,4 +1,4 @@
-import * as actions from '../actions';
+import * as actions from '../actions/acronyms';
 
 const initialState = {
     acronyms: [],
@@ -11,7 +11,7 @@ const initialState = {
     definitionChangesVal: ''
 };
 
-export const acronymFinderReducer = (state=initialState, action) => {
+export default function reducer(state = initialState, action) {
     if (action.type === actions.FETCH_ACRONYMS_SUCCESS) {
         return Object.assign({}, state, {
           acronyms:action.acronyms,
@@ -53,4 +53,4 @@ export const acronymFinderReducer = (state=initialState, action) => {
         });
     }
     return state;
-};
+}

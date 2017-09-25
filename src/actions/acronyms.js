@@ -1,10 +1,15 @@
 import axios from 'axios';
 import qs from 'qs';
-const BASE_URL = ( "http://localhost:8080");
+import { API_BASE_URL } from '../config';
+
 //const BASE_URL = ( "https://polar-lake-31524.herokuapp.com");
-const ACRONYMS_URL = BASE_URL + '/acronyms';
-export const fetchAcronyms= () => dispatch => {
-    axios.get(ACRONYMS_URL)
+const ACRONYMS_URL = API_BASE_URL + '/acronyms';
+export const fetchAcronyms= () => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
+    axios.get(ACRONYMS_URL, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
     .then(res => {
         if (res.status !== 200) {
             return Promise.reject(res.statusText);
