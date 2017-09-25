@@ -7,6 +7,7 @@ const initialState = {
     addVal: '',
     acronymConfirmation: '',
     editing: false,
+    changesId: '',
     acronymChangesVal: '',
     definitionChangesVal: ''
 };
@@ -14,37 +15,43 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     if (action.type === actions.FETCH_ACRONYMS_SUCCESS) {
         return Object.assign({}, state, {
-          acronyms:action.acronyms,
-          acronymConfirmation:''
+          acronyms:action.acronyms
         });
     } else if (action.type === actions.ADD_UPDATE_ACRONYM_SUCCESS) {
         return Object.assign({}, state, {
           acronymConfirmation:action.acronymConfirmation
         });
+    } else if (action.type === actions.DISMISS_ACRONYM_SUCCESS) {
+        return Object.assign({}, state, {
+          acronymConfirmation:''
+        });
     } else if (action.type === actions.SET_FINDER_VAL) {
         return Object.assign({}, state, {
-          finderVal:action.finderVal,
-          acronymConfirmation:''
+          finderVal:action.finderVal
         });
     } else if (action.type === actions.SET_FINDER_RESULTS) {
         return Object.assign({}, state, {
-          finderResults:action.finderResults,
-          acronymConfirmation:''
+          finderResults:action.finderResults
         });
     } else if (action.type === actions.SET_ADD_VAL) {
         return Object.assign({}, state, {
-          addVal:action.addVal,
-          acronymConfirmation:''
+          addVal:action.addVal
         });
     } else if (action.type === actions.SET_EDITING) {
         return Object.assign({}, state, {
-          editing:action.editing,
-          acronymConfirmation:''
+          editing:action.editing
         });
-    } else if (action.type === actions.SET_ACRONYM_CHANGES_VAL) {
+    } else if (action.type === actions.SET_CHANGES_ID) {
         return Object.assign({}, state, {
-          acronymChangesVal:action.acronymChangesVal,
-          acronymConfirmation:''
+          changesId:action.changesId
+        });
+    }  else if (action.type === actions.SET_ACRONYM_CHANGES_VAL) {
+        return Object.assign({}, state, {
+          acronymChangesVal:action.acronymChangesVal
+        });
+    } else if (action.type === actions.SET_DEFINITION_CHANGES_VAL) {
+        return Object.assign({}, state, {
+          definitionChangesVal:action.definitionChangesVal
         });
     }
     return state;
