@@ -14,23 +14,62 @@ export const fetchAcronyms= () => (dispatch, getState) => {
         if (res.status !== 200) {
             return Promise.reject(res.statusText);
         }
-        return res.data;
+        return Promise.resolve(res.data);
     }).then(acronyms => {
         dispatch(fetchAcronymsSuccess(acronyms));
     }).catch(err => {
         console.log(err);
     });
 };
-export const postAcronym= (acronymData) => dispatch => {
+export const postAcronym= (acronymData) => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
     const postData = qs.stringify(acronymData);
-    axios.post(ACRONYMS_URL, postData)
-    .then(res => {console.log(res);
+    axios.post(ACRONYMS_URL, postData, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
+    .then(res => {
         if (res.status !== 201) {
             return Promise.reject(res.statusText);
         }
-        return res.data;
+        return Promise.resolve(res.data);
     }).then(acronymConfirmation => {
         dispatch(addUpdateAcronymSuccess(acronymConfirmation));
+    }).catch(err => {
+        console.log(err);
+    });
+};
+export const putAcronym= (acronymData) => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
+    const putData = qs.stringify(acronymData);
+    axios.put(ACRONYMS_URL+'/'+acronymData.id, putData, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
+    .then(res => {
+        if (res.status !== 200) {
+            return Promise.reject(res.statusText);
+        }
+        return Promise.resolve(res.data);
+    }).then(acronymConfirmation => {
+        dispatch(addUpdateAcronymSuccess(acronymConfirmation));
+    }).catch(err => {
+        console.log(err);
+    });
+};
+export const deleteAcronym= (acronymId) => (dispatch, getState) => {
+    const authToken = getState().auth.authToken;
+    axios.delete(ACRONYMS_URL+'/'+acronymId, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      }
+    )
+    .then(res => {
+        if (res.status !== 204) {
+            return Promise.reject(res.statusText);
+        }
+        return Promise.resolve();
+    }).then(() => {
+        dispatch(addUpdateAcronymSuccess('Acronym was deleted!'));
     }).catch(err => {
         console.log(err);
     });
@@ -46,6 +85,11 @@ export const ADD_UPDATE_ACRONYM_SUCCESS = 'ADD_UPDATE_ACRONYM_SUCCESS';
 export const addUpdateAcronymSuccess = acronymConfirmation => ({
     type: ADD_UPDATE_ACRONYM_SUCCESS,
     acronymConfirmation
+});
+
+export const DISMISS_ACRONYM_SUCCESS = 'DISMISS_ACRONYM_SUCCESS';
+export const dismissAcronymSuccess = () => ({
+    type: DISMISS_ACRONYM_SUCCESS
 });
 
 export const SET_FINDER_VAL = 'SET_FINDER_VAL';
@@ -70,6 +114,12 @@ export const SET_EDITING = 'SET_EDITING';
 export const setEditing = editing => ({
     type: SET_EDITING,
     editing
+});
+
+export const SET_CHANGES_ID = 'SET_CHANGES_ID';
+export const setChangesId = changesId => ({
+    type: SET_CHANGES_ID,
+    changesId
 });
 
 export const SET_ACRONYM_CHANGES_VAL = 'SET_ACRONYM_CHANGES_VAL';

@@ -7,14 +7,18 @@ import {
   setFinderResults,
   setAddVal,
   postAcronym,
+  putAcronym,
+  deleteAcronym,
   setEditing,
+  setChangesId,
   setAcronymChangesVal,
-  setDefinitionChangesVal
+  setDefinitionChangesVal,
+  dismissAcronymSuccess
 } from '../actions/acronyms';
 
 import AddAcronym from './add-acronym';
 import ModifyAcronym from './modify-acronym';
-import AcronymList from './acronym-list';
+import AcronymListTable from './acronym-list-table';
 
 export class Search extends React.Component {
   componentDidMount() {
@@ -25,14 +29,17 @@ export class Search extends React.Component {
   }
 
   setEditing(acronym) {
+    let changesId = '';
     let acronymChangesVal = '';
     let definitionChangesVal = '';
     let editing = false;
     if (acronym) {
+      changesId = acronym.id;
       acronymChangesVal = acronym.acronym;
       definitionChangesVal = acronym.definition;
       editing = true;
     }
+    this.props.dispatch(setChangesId(changesId));
     this.props.dispatch(setAcronymChangesVal(acronymChangesVal));
     this.props.dispatch(setDefinitionChangesVal(definitionChangesVal));
     this.props.dispatch(setEditing(editing));
@@ -44,12 +51,20 @@ export class Search extends React.Component {
       : [];
   }
 
-  saveChanges() {
-    console.log({acronym: this.props.acronymChangesVal, definition: this.props.definitionChangesVal});
+  resetSearch() {
+    this.setEditing();
+    this.props.dispatch(setAddVal(null));
+    this.props.dispatch(setAcronymChangesVal(null));
+    this.props.dispatch(fetchAcronyms());
+    this.props.dispatch(setFinderVal(null));
+    this.props.dispatch(setFinderResults([]));
   }
 
   render() {
-    const message = this.props.finderVal
+    const confirmationMessage = this.props.acronymConfirmation && this.props.acronymConfirmation.acronym
+    ? <div>'{this.props.acronymConfirmation.acronym}:{this.props.acronymConfirmation.definition}' was successfully added/modified! <button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</button></div>
+    : (this.props.acronymConfirmation ? <div>this.props.acronymConfirmation <button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</button></div> : '');
+    const notFoundMessage = this.props.finderVal
       ? (!this.props.finderResults.length
         ? <div>
             <div>Acronym not found for <strong>{this.props.finderVal}</strong>...</div>
@@ -57,21 +72,19 @@ export class Search extends React.Component {
         : '')
       : '';
     if (this.props.editing) {
-      return (<ModifyAcronym trackAcronymChanges={(value) => this.props.dispatch(setAcronymChangesVal(value))} acronymChangesVal={this.props.acronymChangesVal} trackDefinitionChanges={(value) => this.props.dispatch(setDefinitionChangesVal(value))} definitionChangesVal={this.props.definitionChangesVal} setEditing={() => this.setEditing()} saveChanges={() => this.saveChanges()}/>);
+      return (<ModifyAcronym trackAcronymChanges={(value) => this.props.dispatch(setAcronymChangesVal(value))} acronymChangesObj={{acronym:this.props.acronymChangesVal, definition:this.props.definitionChangesVal}} trackDefinitionChanges={(value) => this.props.dispatch(setDefinitionChangesVal(value))} cancelEditing={() => this.setEditing()} saveChanges={() =>{ this.props.dispatch(putAcronym({id:this.props.changesId, acronym:this.props.acronymChangesVal, definition:this.props.definitionChangesVal})); this.resetSearch();}} delete={() =>{ this.props.dispatch(deleteAcronym(this.props.changesId)); this.resetSearch();}}/>);
     }
     return (
       <div>
+        {confirmationMessage}
         <h4>Enter an Acronym:</h4>
         <input type='text' onChange={(event) => {
           this.props.dispatch(setFinderVal(event.target.value));
           this.props.dispatch(setFinderResults(this.findVal(event.target.value)));
         }}/> {(this.props.finderResults && this.props.finderResults.length)
-          ? <AcronymList finderAcronyms={this.props.finderResults} setEditing={(acronym) => this.setEditing(acronym)}/>
+          ? <AcronymListTable acronymList={this.props.finderResults} setEditing={(acronym) => { this.props.dispatch(dismissAcronymSuccess()); this.setEditing(acronym);}}/>
           : ''}
-        {this.props.acronymConfirmation
-          ? `'${this.props.acronymConfirmation.acronym}:${this.props.acronymConfirmation.definition}' was successfully added/modified!`
-          : message
-}
+        {notFoundMessage}
       </div>
     );
   }
@@ -85,6 +98,7 @@ const mapStateToProps = state => ({
   addVal: state.acronyms.addVal,
   acronymConfirmation: state.acronyms.acronymConfirmation,
   editing: state.acronyms.editing,
+  changesId: state.acronyms.changesId,
   acronymChangesVal: state.acronyms.acronymChangesVal,
   definitionChangesVal: state.acronyms.definitionChangesVal
 });
