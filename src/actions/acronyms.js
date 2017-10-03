@@ -2,7 +2,6 @@ import axios from 'axios';
 import qs from 'qs';
 import { API_BASE_URL } from '../config';
 
-//const BASE_URL = ( "https://polar-lake-31524.herokuapp.com");
 const ACRONYMS_URL = API_BASE_URL + '/acronyms';
 export const fetchAcronyms= () => (dispatch, getState) => {
     const authToken = getState().auth.authToken;
