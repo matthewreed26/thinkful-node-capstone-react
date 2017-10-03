@@ -8,6 +8,9 @@ script:
 env:
   - REACT_APP_API_BASE_URL=https://polar-lake-31524.herokuapp.com
 
+before_install:
+  - npm install -g npm@5.2.0
+
 before_deploy:
   - npm install netlify-cli -g
   - npm run build
