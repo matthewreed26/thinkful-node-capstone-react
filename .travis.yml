@@ -6,7 +6,7 @@ cache:
 script:
   - npm test
 env:
-  - REACT_APP_API_BASE_URL=https://polar-lake-31524.herokuapp.com
+  - REACT_APP_API_BASE_URL=https://polar-lake-31524.herokuapp.com/api
 
 before_install:
   - npm install -g npm@5.2.0
