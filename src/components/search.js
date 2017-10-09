@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 import {
   fetchAcronyms,
@@ -62,12 +63,11 @@ export class Search extends React.Component {
 
   render() {
     const confirmationMessage = this.props.acronymConfirmation && this.props.acronymConfirmation.acronym
-    ? <div>'{this.props.acronymConfirmation.acronym}:{this.props.acronymConfirmation.definition}' was successfully added/modified! <button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</button></div>
-    : (this.props.acronymConfirmation ? <div>this.props.acronymConfirmation <button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</button></div> : '');
+    ? <div className="row"><div className="col-md-12">'{this.props.acronymConfirmation.acronym}:{this.props.acronymConfirmation.definition}' was successfully added/modified! <Button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</Button></div></div>
+    : (this.props.acronymConfirmation ? <div className="row"><div className="col-md-12">this.props.acronymConfirmation <Button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</Button></div></div> : '');
     const notFoundMessage = this.props.finderVal
       ? (!this.props.finderResults.length
-        ? <div>
-            <div>Acronym not found for <strong>{this.props.finderVal}</strong>...</div>
+        ? <div className="row"><div className="col-md-12">Acronym not found for <strong>{this.props.finderVal}</strong>...</div>
             <AddAcronym finderVal={this.props.finderVal} addVal={this.props.addVal} onChange={(value) => this.props.dispatch(setAddVal(value))} onSubmit={(value) => this.props.dispatch(postAcronym({acronym: this.props.finderVal, definition: value}))}/></div>
         : '')
       : '';

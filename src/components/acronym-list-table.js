@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Table } from 'react-bootstrap';
 
 export default function AcronymListTable(props){
   const acronymRows = props.acronymList.map((acronym, index) => {
@@ -9,7 +10,7 @@ export default function AcronymListTable(props){
           <td>{acronym.acronym}</td>
           <td>{acronym.definition}</td>
           <td>
-            <button onClick={() => props.setEditing(acronym)}>Modify</button>
+            <Button onClick={() => props.setEditing(acronym)}>Modify</Button>
           </td>
         </tr>
       );
@@ -25,7 +26,7 @@ export default function AcronymListTable(props){
   //only if the setEditing function is defined
   if(props.setEditing){
     return (
-      <table>
+      <Table>
         <thead>
           <tr>
             <th>Acronym</th>
@@ -34,11 +35,11 @@ export default function AcronymListTable(props){
           </tr>
         </thead>
         <tbody>{acronymRows}</tbody>
-      </table>
+      </Table>
     );
   }
   return (
-    <table>
+    <Table>
       <thead>
         <tr>
           <th>Acronym</th>
@@ -46,6 +47,6 @@ export default function AcronymListTable(props){
         </tr>
       </thead>
       <tbody>{acronymRows}</tbody>
-    </table>
+    </Table>
   );
 }
