@@ -4,6 +4,7 @@ import { setCurrentUser, setAuthToken } from '../actions/auth';
 import { clearAuthToken } from '../local-storage';
 import { Navbar, Nav, NavItem, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 
 export class HeaderBar extends React.Component {
   logOut() {
@@ -20,7 +21,7 @@ export class HeaderBar extends React.Component {
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="/search">Acronym Finder</a>
+              <Link to="/search">Acronym Finder</Link>
             </Navbar.Brand>
             <Navbar.Toggle/>
           </Navbar.Header>
