@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Spinner from 'react-spinkit';
 import {Link, Redirect} from 'react-router-dom';
 
 import RegistrationForm from './registration-form';
@@ -9,6 +10,10 @@ export function RegistrationPage(props) {
     // is successful) redirect to the user's dashboard
     if (props.loggedIn) {
         return <Redirect to="/search" />;
+    }
+    // Display a spinner if fetching data
+    if (props.loading) {
+      return <Spinner spinnerName="circle" noFadeIn />;
     }
     return (
         <div className="home">
@@ -20,7 +25,8 @@ export function RegistrationPage(props) {
 }
 
 const mapStateToProps = state => ({
-    loggedIn: state.auth.currentUser !== null
+    loggedIn: state.auth.currentUser !== null,
+    loading: state.auth.loading
 });
 
 export default connect(mapStateToProps)(RegistrationPage);

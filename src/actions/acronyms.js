@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../config';
 
 const ACRONYMS_URL = API_BASE_URL + '/acronyms';
 export const fetchAcronyms= () => (dispatch, getState) => {
+    dispatch(dataLoading());
     const authToken = getState().auth.authToken;
     axios.get(ACRONYMS_URL, {
         headers: { Authorization: `Bearer ${authToken}` }
@@ -21,6 +22,7 @@ export const fetchAcronyms= () => (dispatch, getState) => {
     });
 };
 export const postAcronym= (acronymData) => (dispatch, getState) => {
+    dispatch(dataLoading());
     const authToken = getState().auth.authToken;
     const postData = qs.stringify(acronymData);
     axios.post(ACRONYMS_URL, postData, {
@@ -39,6 +41,7 @@ export const postAcronym= (acronymData) => (dispatch, getState) => {
     });
 };
 export const putAcronym= (acronymData) => (dispatch, getState) => {
+    dispatch(dataLoading());
     const authToken = getState().auth.authToken;
     const putData = qs.stringify(acronymData);
     axios.put(ACRONYMS_URL+'/'+acronymData.id, putData, {
@@ -57,6 +60,7 @@ export const putAcronym= (acronymData) => (dispatch, getState) => {
     });
 };
 export const deleteAcronym= (acronymId) => (dispatch, getState) => {
+    dispatch(dataLoading());
     const authToken = getState().auth.authToken;
     axios.delete(ACRONYMS_URL+'/'+acronymId, {
         headers: { Authorization: `Bearer ${authToken}` }
@@ -89,6 +93,11 @@ export const addUpdateAcronymSuccess = acronymConfirmation => ({
 export const DISMISS_ACRONYM_SUCCESS = 'DISMISS_ACRONYM_SUCCESS';
 export const dismissAcronymSuccess = () => ({
     type: DISMISS_ACRONYM_SUCCESS
+});
+
+export const DATA_LOADING = 'DATA_LOADING';
+export const dataLoading = () => ({
+    type: DATA_LOADING
 });
 
 export const SET_FINDER_VAL = 'SET_FINDER_VAL';

@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Spinner from 'react-spinkit';
 
 import {fetchAcronyms} from '../actions/acronyms';
 
@@ -13,13 +14,18 @@ export class AcronymList extends React.Component {
     this.props.dispatch(fetchAcronyms());
   }
   render() {
+    // Display a spinner if fetching data
+    if (this.props.loading) {
+      return <Spinner spinnerName="circle" noFadeIn />;
+    }
     return (<AcronymListTable acronymList={this.props.acronyms}/>);
   }
 }
 
 const mapStateToProps = state => ({
   loggedIn: state.auth.currentUser !== null,
-  acronyms: state.acronyms.acronyms
+  acronyms: state.acronyms.acronyms,
+  loading: state.acronyms.loading
 });
 
 export default connect(mapStateToProps)(AcronymList);

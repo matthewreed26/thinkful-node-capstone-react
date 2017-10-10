@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Spinner from 'react-spinkit';
 import { Button } from 'react-bootstrap';
 
 import {
@@ -62,6 +63,10 @@ export class Search extends React.Component {
   }
 
   render() {
+    // Display a spinner if fetching data
+    if (this.props.loading) {
+      return <Spinner spinnerName="circle" noFadeIn />;
+    }
     const confirmationMessage = this.props.acronymConfirmation && this.props.acronymConfirmation.acronym
     ? <div className="row"><div className="col-md-12">'{this.props.acronymConfirmation.acronym}:{this.props.acronymConfirmation.definition}' was successfully added/modified! <Button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</Button></div></div>
     : (this.props.acronymConfirmation ? <div className="row"><div className="col-md-12">this.props.acronymConfirmation <Button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</Button></div></div> : '');
@@ -100,7 +105,8 @@ const mapStateToProps = state => ({
   editing: state.acronyms.editing,
   changesId: state.acronyms.changesId,
   acronymChangesVal: state.acronyms.acronymChangesVal,
-  definitionChangesVal: state.acronyms.definitionChangesVal
+  definitionChangesVal: state.acronyms.definitionChangesVal,
+  loading: state.acronyms.loading
 });
 
 export default connect(mapStateToProps)(Search);
