@@ -12,7 +12,7 @@ export function LoginPage(props) {
     }
     // Display a spinner if fetching data
     if (props.loading) {
-      return <Spinner spinnerName="circle" noFadeIn />;
+      return <Spinner  name='folding-cube' fadeIn='none' />;
     }
 
     return (

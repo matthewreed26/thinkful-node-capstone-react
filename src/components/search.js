@@ -65,7 +65,7 @@ export class Search extends React.Component {
   render() {
     // Display a spinner if fetching data
     if (this.props.loading) {
-      return <Spinner spinnerName="circle" noFadeIn />;
+      return <Spinner name='folding-cube' fadeIn='none' />;
     }
     const confirmationMessage = this.props.acronymConfirmation && this.props.acronymConfirmation.acronym
     ? <div className="row"><div className="col-md-12">'{this.props.acronymConfirmation.acronym}:{this.props.acronymConfirmation.definition}' was successfully added/modified! <Button onClick={()=>this.props.dispatch(dismissAcronymSuccess())}>Dismiss</Button></div></div>

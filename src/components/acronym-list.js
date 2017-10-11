@@ -16,7 +16,7 @@ export class AcronymList extends React.Component {
   render() {
     // Display a spinner if fetching data
     if (this.props.loading) {
-      return <Spinner spinnerName="circle" noFadeIn />;
+      return <Spinner name='folding-cube' fadeIn='none' />;
     }
     return (<AcronymListTable acronymList={this.props.acronyms}/>);
   }
