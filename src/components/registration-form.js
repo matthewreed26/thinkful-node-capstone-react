@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import {Field, reduxForm, focus} from 'redux-form';
 import {registerUser} from '../actions/users';
 import {login} from '../actions/auth';
@@ -46,11 +47,11 @@ export class RegistrationForm extends React.Component {
                     name="passwordConfirm"
                     validate={[required, nonEmpty, matches('password')]}
                 />
-                <button
+                <Button
                     type="submit"
                     disabled={this.props.pristine || this.props.submitting}>
                     Register
-                </button>
+                </Button>
             </form>
         );
     }
