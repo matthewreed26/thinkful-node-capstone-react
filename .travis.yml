@@ -10,14 +10,12 @@ env:
   - REACT_APP_API_BASE_URL=https://polar-lake-31524.herokuapp.com/api
 
 before_install:
-  - npm install -g yarn
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version version-number
+  - export PATH="$HOME/.yarn/bin:$PATH"
 
 before_deploy:
   - yarn install netlify-cli -g
   - yarn run build
-
-install:
-  - yarn
 
 deploy:
   provider: script
