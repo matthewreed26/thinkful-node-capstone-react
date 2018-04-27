@@ -16,6 +16,9 @@ before_deploy:
   - yarn install netlify-cli -g
   - yarn run build
 
+install:
+  - yarn
+
 deploy:
   provider: script
   script: netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_ACCESS_TOKEN -p ./build
